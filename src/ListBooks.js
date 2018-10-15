@@ -15,9 +15,16 @@ class ListBooks extends React.Component {
     })
   }
 
+  moveBook = (book, shelf) => {
+    BooksAPI.update(book, shelf);
+    BooksAPI.getAll().then((book) => {
+      this.setState({booklist: book})
+    });
+
+  }
 
     render(){
-      console.log(this.state.booklist);
+      console.log(this.props.booklist);
 
         return(
           <div className="list-books">
@@ -28,12 +35,19 @@ class ListBooks extends React.Component {
               <div>
                 <Bookshelf title='Currently Reading'
                   booklist={this.state.booklist.filter(booklist => booklist.shelf === 'currentlyReading')}
+                  moveBook={this.moveBook}
+                  shelf={'currentlyReading'}
                 />
                 <Bookshelf title='Want To Read'
                   booklist={this.state.booklist.filter(booklist => booklist.shelf === 'wantToRead')}
+                  moveBook={this.moveBook}
+                  shelf={'wantToRead'}
+
                   />
                 <Bookshelf title='Read'
                   booklist={this.state.booklist.filter(booklist => booklist.shelf === 'read')}
+                  moveBook={this.moveBook}
+                  shelf={'read'}
                   />
               </div>
             </div>
